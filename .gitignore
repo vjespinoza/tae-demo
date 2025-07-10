@@ -9,6 +9,7 @@ node_modules/
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+.mvn
 
 # testing
 /coverage
@@ -19,6 +20,7 @@ node_modules/
 
 # production
 /build
+target/
 
 # misc
 .DS_Store
@@ -41,7 +43,10 @@ yarn-error.log*
 next-env.d.ts
 
 # IDEs
-/.idea
+.idea/
+*.iml
+*.ipr
+*.iws
 
 # Playwright
 /test-results/
