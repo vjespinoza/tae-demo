@@ -1,0 +1,39 @@
+{
+  "baseUrl": "https://tech-store-vjespinoza.netlify.app/",
+  "data": {
+    "customerDetails": {
+      "customerOne": {
+        "fullName": "Till Lindemann",
+        "email": "rammstein@metal.com"
+      },
+      "customerTwo": {
+        "fullName": "James Hetfield",
+        "email": "metallica@metal.com"
+      }
+    },
+    "addresses": {
+      "shipping": {
+        "addressLineOne": "Franz-Beckenbauer-Platz 5",
+        "addressLineTwo": "Allianz Arena Stadium",
+        "city": "München",
+        "state": "Bavaria",
+        "zipCode": "80939",
+        "country": "Germany"
+      },
+      "billing": {
+        "addressLineOne": "1 E 161st St",
+        "addressLineTwo": "Yankee Stadium",
+        "city": "New York City",
+        "state": "New York",
+        "zipCode": "10451",
+        "country": "United States"
+      }
+    },
+    "paymentInfo": {
+      "cardNumber": "4444 3333 2222 1111",
+      "cardHolderName": "Till Lindemann",
+      "expiryDate": "03/30",
+      "cvv": "789"
+    }
+  }
+}
