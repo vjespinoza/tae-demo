@@ -1,1 +1,46 @@
-{}
+{
+  "products": {
+    "saleTag": "Sale",
+    "availability": {
+      "inStock": "In Stock",
+      "outOfStock": "Out of Stock"
+    },
+    "categories": {
+      "phone": "Mobile Phones",
+      "laptop": "Laptops",
+      "console": "Consoles",
+      "accessory": "Accessories"
+    },
+    "brands": {
+      "oppo":  "Oppo",
+      "xiaomi": "Xiaomi",
+      "samsung":  "Samsung",
+      "apple": "Apple",
+      "sony":  "Sony",
+     "logitech": "Logitech"
+    },
+    "filters": {
+      "bestSelling": "Best selling",
+      "lowestPrice": "Price: Low to High",
+      "highestPrice": "Price: High to Low",
+      "ascending": "Name: A-Z",
+      "descending": "Name: Z-A"
+    }
+  },
+  "pages": {
+    "cart": {
+      "emptyCartMessage": "Your cart is empty."
+    },
+    "checkout": {
+      "title": "Checkout",
+      "emptyCartMessage": "Your cart is empty. Please add items to proceed."
+    },
+    "payment": {
+      "title": "Payment Information"
+    },
+    "confirmation": {
+      "successMessage": "Order Confirmed!",
+      "thankYouMessage": "Thank you for your purchase!"
+    }
+  }
+}
