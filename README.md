@@ -40,6 +40,8 @@ Demonstrates a typical Java application setup with Maven, including unit testing
   mvn test
 ```
 
+---
+
 ### 2. JavaScript Cypress Demo
 
 **Tech Stack:**
@@ -64,6 +66,7 @@ Demonstrates a JavaScript project setup with Cypress for end-to-end testing, sho
 ```bash
   npx cypress open
 ```
+---
 
 ### 3. TypeScript Playwright Demo
 
@@ -90,6 +93,8 @@ Demonstrates a TypeScript project setup with Playwright for end-to-end testing, 
 ```bash
   npx playwright test
 ```
+
+---
 
 ### 4. TypeScript WebdriverIO Demo
 
