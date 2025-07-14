@@ -1,16 +1,14 @@
+import Browser from "./test/helpers/browser.ts";
+import HomePage from "./test/pages/home.page.ts";
+
 export const config: WebdriverIO.Config = {
-  baseUrl: "https://tech-store-vjespinoza.netlify.app/",
   runner: "local",
   tsConfigPath: "./tsconfig.json",
   specs: ["./test/specs/**/*.ts"],
   exclude: [],
   maxInstances: 10,
-  capabilities: [
-    {
-      browserName: "chrome",
-    },
-  ],
-  logLevel: "info",
+  capabilities: [Browser.get()],
+  logLevel: "error",
   bail: 0,
   waitforTimeout: 10000,
   connectionRetryTimeout: 120000,
@@ -20,5 +18,10 @@ export const config: WebdriverIO.Config = {
   mochaOpts: {
     ui: "bdd",
     timeout: 60000,
+  },
+
+  beforeTest() {
+    Browser.setUp();
+    HomePage.open();
   },
 };

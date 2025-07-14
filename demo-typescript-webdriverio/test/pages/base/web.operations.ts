@@ -1,8 +1,5 @@
-import {
-  DEFAULT_TIMEOUT,
-  waitForClickable,
-  waitForVisibility,
-} from "../../helpers/waits.ts";
+import { waitForClickable, waitForVisibility } from "../../helpers/waits.ts";
+import { DEFAULT_TIMEOUT } from "../../helpers/common.ts";
 
 class WebOperations {
   public async isVisible(

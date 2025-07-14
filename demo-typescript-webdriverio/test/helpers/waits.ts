@@ -1,12 +1,4 @@
-export enum Wait {
-  XS = 2000,
-  S = 5000,
-  M = 10000,
-  L = 15000,
-  XL = 30000,
-}
-
-export const DEFAULT_TIMEOUT = Wait.M;
+import { DEFAULT_TIMEOUT } from "./common.ts";
 
 async function waitFor(
   condition: Promise<boolean> | boolean,
