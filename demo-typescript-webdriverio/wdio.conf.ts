@@ -1,13 +1,14 @@
 import Browser from "./test/helpers/browser.ts";
-import HomePage from "./test/pages/home.page.ts";
 import { generateAllureReport } from "./test/helpers/allure.report.ts";
+import HomePage from "./test/pages/home.page.ts";
+import { getEnvVar, Path } from "./test/helpers/common.ts";
 
 export const config: WebdriverIO.Config = {
   runner: "local",
   tsConfigPath: "./tsconfig.json",
   specs: ["./test/specs/**/*.ts"],
   exclude: [],
-  maxInstances: 10,
+  maxInstances: parseInt(getEnvVar("MAX_INSTANCES", "1")),
   capabilities: [Browser.get()],
   logLevel: "error",
   bail: 0,
@@ -15,7 +16,16 @@ export const config: WebdriverIO.Config = {
   connectionRetryTimeout: 120000,
   connectionRetryCount: 3,
   framework: "mocha",
-  reporters: ["spec"],
+  reporters: [
+    "spec",
+    [
+      "allure",
+      {
+        outputDir: Path.ALLURE_RESULT,
+        disableWebdriverStepsReporting: true,
+      },
+    ],
+  ],
   mochaOpts: {
     ui: "bdd",
     timeout: 60000,

@@ -1,4 +1,4 @@
-import { DEFAULT_BROWSER, getEnvVar } from "./common.ts";
+import { DEFAULT_BROWSER, getEnvVar, isTrue, logInfo } from "./common.ts";
 import { browser } from "@wdio/globals";
 
 class Browser {
@@ -6,7 +6,7 @@ class Browser {
     return {
       browserName: "chrome",
       "goog:chromeOptions": {
-        args: getEnvVar("HEADLESS", false)
+        args: isTrue(getEnvVar("HEADLESS", "false"))
           ? ["--headless", "--disable-gpu"]
           : [],
       },
@@ -17,7 +17,7 @@ class Browser {
     return {
       browserName: "firefox",
       "moz:firefoxOptions": {
-        args: getEnvVar("HEADLESS", false) ? ["--headless"] : [],
+        args: isTrue(getEnvVar("HEADLESS", "false")) ? ["--headless"] : [],
       },
     };
   }
@@ -37,7 +37,9 @@ class Browser {
   }
 
   public setUp() {
+    logInfo("Deleting all cookies...");
     browser.deleteAllCookies();
+    logInfo("Maximizing window...");
     browser.maximizeWindow();
   }
 }

@@ -1,5 +1,5 @@
 import { spawn } from "child_process";
-import { Path } from "./common.ts";
+import { logError, logInfo, Path } from "./common.ts";
 
 export async function generateAllureReport(): Promise<void> {
   const reportError = new Error("Could not generate Allure report");
@@ -7,6 +7,7 @@ export async function generateAllureReport(): Promise<void> {
     "allure",
     [
       "generate",
+      Path.ALLURE_RESULT,
       "-o",
       Path.ALLURE_REPORT,
       "--name",
@@ -27,8 +28,7 @@ export async function generateAllureReport(): Promise<void> {
 
     generation.on("error", (err) => {
       clearTimeout(generationTimeout);
-      //TODO: Optimize logging
-      console.error("Failed to start Allure report generation process:", err);
+      logError(`Failed to start Allure report generation process: ${err}`);
       reject(reportError);
     });
 
@@ -36,14 +36,10 @@ export async function generateAllureReport(): Promise<void> {
       clearTimeout(generationTimeout);
 
       if (exitCode !== 0) {
-        //TODO: Optimize logging
-        console.error(
-          `Allure report generation failed with exit code: ${exitCode}`,
-        );
+        logError(`Allure report generation failed with exit code: ${exitCode}`);
         return reject(reportError);
       }
-      //TODO: Optimize logging
-      console.log("Allure report successfully generated");
+      logInfo("Allure report successfully generated");
       resolve();
     });
   });
