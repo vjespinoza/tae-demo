@@ -1,7 +1,17 @@
+export enum Wait {
+  XS = 2000,
+  S = 5000,
+  M = 10000,
+  L = 15000,
+  XL = 30000,
+}
+
+export const DEFAULT_TIMEOUT = Wait.M;
+
 async function waitFor(
-  condition: Promise<boolean>,
+  condition: Promise<boolean> | boolean,
   errorMessage: string,
-  timeout: number = 10000,
+  timeout: number = DEFAULT_TIMEOUT,
   shouldFail: boolean,
 ): Promise<boolean> {
   try {
@@ -17,7 +27,7 @@ async function waitFor(
 
 export async function waitForVisibility(
   element: ChainablePromiseElement,
-  timeout: number = 10000,
+  timeout: number = DEFAULT_TIMEOUT,
   shouldFail: boolean = true,
 ): Promise<boolean> {
   const msg = `Element ${await element.selector} is not visible within ${timeout}ms`;
@@ -26,9 +36,24 @@ export async function waitForVisibility(
 
 export async function waitForClickable(
   element: ChainablePromiseElement,
-  timeout: number = 10000,
+  timeout: number = DEFAULT_TIMEOUT,
   shouldFail: boolean = true,
 ): Promise<boolean> {
   const msg = `Element ${await element.selector} is not clickable within ${timeout}ms`;
   return await waitFor(element.isClickable(), msg, timeout, shouldFail);
+}
+
+export async function waitForText(
+  element: ChainablePromiseElement,
+  text: string,
+  timeout: number = DEFAULT_TIMEOUT,
+  shouldFail: boolean = true,
+) {
+  const msg = `Text ${text} is not present in element ${element.selector} within ${timeout}ms`;
+  return await waitFor(
+    (await element.getText()) === text,
+    msg,
+    timeout,
+    shouldFail,
+  );
 }

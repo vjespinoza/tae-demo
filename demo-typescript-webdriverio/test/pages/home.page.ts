@@ -6,11 +6,7 @@ class HomePage extends BasePage {
   }
 
   public get productSortSelector() {
-    return $("#sort-select87");
-  }
-
-  public async isProductSortSelectorVisible() {
-    return this.isVisible(this.productSortSelector, 10000);
+    return $("#sort-select");
   }
 }
 
