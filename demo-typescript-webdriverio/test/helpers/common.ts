@@ -6,6 +6,11 @@ export enum Wait {
   XL = 30000,
 }
 
+export const Path = {
+  ALLURE_REPORT: `${process.cwd()}/reports/allure-report/`,
+  ALLURE_RESULT: `${process.cwd()}/reports/allure-result/`,
+};
+
 export const DEFAULT_BROWSER = "chrome";
 export const DEFAULT_TIMEOUT = Wait.M;
 

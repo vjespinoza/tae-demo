@@ -1,5 +1,8 @@
+import { Path } from "../helpers/common.ts";
+
 describe("Demo", () => {
   it("should ", async () => {
-    await browser.pause(5000);
+    console.log("###", Path.ALLURE_REPORT);
+    // await browser.pause(5000);
   });
 });

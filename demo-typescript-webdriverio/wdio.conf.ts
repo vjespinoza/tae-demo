@@ -1,5 +1,6 @@
 import Browser from "./test/helpers/browser.ts";
 import HomePage from "./test/pages/home.page.ts";
+import { generateAllureReport } from "./test/helpers/allure.report.ts";
 
 export const config: WebdriverIO.Config = {
   runner: "local",
@@ -19,9 +20,11 @@ export const config: WebdriverIO.Config = {
     ui: "bdd",
     timeout: 60000,
   },
-
   beforeTest() {
     Browser.setUp();
     HomePage.open();
+  },
+  async onComplete() {
+    await generateAllureReport();
   },
 };
