@@ -5,5 +5,6 @@ describe("Demo suite", () => {
     logError("ERROR");
     logInfo("INFO");
     logWarn("WARN");
+    await browser.pause(5000);
   });
 });

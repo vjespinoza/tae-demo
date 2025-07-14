@@ -30,9 +30,9 @@ export const config: WebdriverIO.Config = {
     ui: "bdd",
     timeout: 60000,
   },
-  beforeTest() {
-    Browser.setUp();
-    HomePage.open();
+  async beforeTest() {
+    await Browser.setUp();
+    await HomePage.open();
   },
   async onComplete() {
     await generateAllureReport();
