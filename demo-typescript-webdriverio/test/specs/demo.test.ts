@@ -1,10 +1,11 @@
-import { logError, logInfo, logWarn } from "../helpers/common.ts";
+import { logAssert, logError, logInfo, logWarn } from "../helpers/common.ts";
 
 describe("Demo suite", () => {
   it("should test something", async () => {
     logError("ERROR");
     logInfo("INFO");
     logWarn("WARN");
-    await browser.pause(5000);
+    logAssert("qwerty", true);
+    logAssert("asdfg", false);
   });
 });

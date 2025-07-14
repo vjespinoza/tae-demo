@@ -1,8 +1,7 @@
 import { Logger } from "tslog";
 import { addStep } from "@wdio/allure-reporter";
 import { Status } from "allure-js-commons";
-
-const logger = new Logger({ name: "myLogger" });
+import { color } from "console-log-colors";
 
 export enum Wait {
   XS = 2000,
@@ -11,6 +10,25 @@ export enum Wait {
   L = 15000,
   XL = 30000,
 }
+
+const logger = new Logger({
+  prettyLogTemplate:
+    "{{yyyy}}.{{mm}}.{{dd}} {{hh}}:{{MM}}:{{ss}}:{{ms}}\t{{logLevelName}}\t",
+  prettyErrorTemplate:
+    "\n{{errorName}} {{errorMessage}}\nerror stack:\n{{errorStack}}",
+  prettyErrorStackTemplate:
+    "  • {{fileName}}\t{{method}}\n\t{{filePathWithLine}}",
+  prettyLogStyles: {
+    fileName: "white",
+    logLevelName: {
+      INFO: ["bold", "whiteBright"],
+      WARN: ["bold", "yellowBright"],
+      ERROR: ["bold", "redBright"],
+      FAILED: ["bold", "redBright"],
+      PASSED: ["bold", "greenBright"],
+    },
+  },
+});
 
 export const Path = {
   ALLURE_REPORT: `${process.cwd()}/reports/allure-report/`,
@@ -38,12 +56,19 @@ export function logInfo(message: string) {
   addStep(message);
 }
 
+export function logAssert(message: string, pass: boolean) {
+  pass
+    ? logger.log(0, "PASSED", color.greenBright(message))
+    : logger.log(0, "FAILED", color.redBright(message));
+  addStep(message, {}, pass ? Status.PASSED : Status.FAILED);
+}
+
 export function logError(message: string) {
-  logger.error(message);
+  logger.error(color.red(message));
   addStep(message, {}, Status.FAILED);
 }
 
 export function logWarn(message: string) {
-  logger.warn(message);
+  logger.warn(color.yellow(message));
   addStep(message, {}, Status.BROKEN);
 }
