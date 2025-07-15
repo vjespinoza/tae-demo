@@ -1,7 +1,8 @@
 import {
   DEFAULT_BROWSER,
   getEnvVar,
-  isTrue,
+  isHeadless,
+  isSafari,
   logInfo,
   logWarn,
 } from "./common.ts";
@@ -12,7 +13,7 @@ class Browser {
     return {
       browserName: "chrome",
       "goog:chromeOptions": {
-        args: isTrue(getEnvVar("HEADLESS", "false"))
+        args: isHeadless()
           ? ["--headless", "--disable-gpu", "--window-size=1920,1080"]
           : [],
       },
@@ -23,7 +24,7 @@ class Browser {
     return {
       browserName: "firefox",
       "moz:firefoxOptions": {
-        args: isTrue(getEnvVar("HEADLESS", "false"))
+        args: isHeadless()
           ? ["--headless", "--width=1920", "--height=1080"]
           : [],
       },
@@ -54,23 +55,21 @@ class Browser {
   }
 
   public async setUp() {
-    await this.handleHeadless();
-    logInfo("Maximizing window...");
+    await this.handleBrowserSetUpMessage();
     await browser.maximizeWindow();
   }
 
-  private async handleHeadless() {
-    const isHeadless = isTrue(getEnvVar("HEADLESS", "false"));
+  private async handleBrowserSetUpMessage() {
     const windowSize = await browser.getWindowSize();
     const resolution = `${windowSize.width}x${windowSize.height}`;
     const browserName = this.get().browserName.toUpperCase();
     const baseMessage = `Starting new [${browserName}] session at [${resolution}] resolution`;
 
-    if (getEnvVar("BROWSER") === "safari" && isHeadless) {
-      logWarn("Safari does not support headless mode.");
-      logInfo(`${baseMessage} and GUI mode...`);
+    if (isSafari() && isHeadless()) {
+      logWarn("Safari does not support headless mode!!!");
+      logInfo(`${baseMessage} in GUI mode.`);
     } else {
-      logInfo(`${baseMessage} in [${isHeadless ? "HEADLESS" : "GUI"}] mode`);
+      logInfo(`${baseMessage} in [${isHeadless() ? "HEADLESS" : "GUI"}] mode.`);
     }
   }
 }

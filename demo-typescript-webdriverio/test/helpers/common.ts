@@ -39,11 +39,7 @@ export const DEFAULT_BROWSER = "chrome";
 export const DEFAULT_TIMEOUT = Wait.M;
 
 export function getEnvVar(varName: string, defaultValue?: string): string {
-  const val = process.env[varName] ?? defaultValue;
-  if (!val || val === "") {
-    throw new Error(`Environment variable ${varName} is not set.`);
-  }
-  return val;
+  return process.env[varName] ?? defaultValue ?? "";
 }
 
 export function isTrue(value: string): boolean {
@@ -51,16 +47,17 @@ export function isTrue(value: string): boolean {
   return trueValues.includes(value.toLowerCase());
 }
 
+export function isSafari(): boolean {
+  return getEnvVar("BROWSER") === "safari";
+}
+
+export function isHeadless(): boolean {
+  return isTrue(getEnvVar("HEADLESS", "false"));
+}
+
 export function logInfo(message: string) {
   logger.info(message);
   addStep(message);
-}
-
-export function logAssert(message: string, pass: boolean) {
-  pass
-    ? logger.log(0, "PASSED", color.greenBright(message))
-    : logger.log(0, "FAILED", color.redBright(message));
-  addStep(message, {}, pass ? Status.PASSED : Status.FAILED);
 }
 
 export function logError(message: string) {
@@ -71,4 +68,11 @@ export function logError(message: string) {
 export function logWarn(message: string) {
   logger.warn(color.yellow(message));
   addStep(message, {}, Status.BROKEN);
+}
+
+export function logAssert(message: string, pass: boolean) {
+  pass
+    ? logger.log(0, "PASSED", color.greenBright(message))
+    : logger.log(0, "FAILED", color.redBright(message));
+  addStep(message, {}, pass ? Status.PASSED : Status.FAILED);
 }
