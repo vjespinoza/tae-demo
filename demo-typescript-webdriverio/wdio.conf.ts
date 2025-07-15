@@ -1,10 +1,10 @@
-import Browser from "./test/helpers/browser.ts";
+import Browser from "./test/utils/browser.ts";
 import {
   clearAllureResults,
   generateAllureReport,
-} from "./test/helpers/allure.report.ts";
+} from "./test/utils/allure.report.ts";
 import HomePage from "./test/pages/home.page.ts";
-import { getEnvVar, Path } from "./test/helpers/common.ts";
+import { getEnvVar, Path } from "./test/utils/common.ts";
 
 export const config: WebdriverIO.Config = {
   runner: "local",

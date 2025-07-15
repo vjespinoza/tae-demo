@@ -1,4 +1,4 @@
-import { logAssert, logError, logInfo, logWarn } from "../helpers/common.ts";
+import { logAssert, logError, logInfo, logWarn } from "../utils/common.ts";
 
 describe("Demo suite", () => {
   it("should test something", async () => {
