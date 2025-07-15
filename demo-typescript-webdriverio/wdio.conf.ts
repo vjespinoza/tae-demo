@@ -33,6 +33,7 @@ export const config: WebdriverIO.Config = {
     ui: "bdd",
     timeout: 60000,
   },
+  // services: [[SoftAssertionService]],
   async onPrepare() {
     await clearAllureResults();
   },
@@ -40,6 +41,7 @@ export const config: WebdriverIO.Config = {
     await Browser.setUp();
     await HomePage.open();
   },
+  async afterTest() {},
   async onComplete() {
     await generateAllureReport();
   },

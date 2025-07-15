@@ -1,11 +1,8 @@
-import { logAssert, logError, logInfo, logWarn } from "../utils/common.ts";
+import { assertEquals } from "../utils/assertions.ts";
 
 describe("Demo suite", () => {
   it("should test something", async () => {
-    logError("ERROR");
-    logInfo("INFO");
-    logWarn("WARN");
-    logAssert("qwerty", true);
-    logAssert("asdfg", false);
+    await assertEquals(1, 2);
+    await assertEquals(1, 1);
   });
 });

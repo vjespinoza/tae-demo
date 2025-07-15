@@ -71,8 +71,24 @@ export function logWarn(message: string) {
 }
 
 export function logAssert(message: string, pass: boolean) {
+  const concatMsg = `[CHECK] ${message}`;
   pass
-    ? logger.log(0, "PASSED", color.greenBright(message))
-    : logger.log(0, "FAILED", color.redBright(message));
-  addStep(message, {}, pass ? Status.PASSED : Status.FAILED);
+    ? logger.log(0, "PASSED", color.greenBright(concatMsg))
+    : logger.log(0, "FAILED", color.redBright(concatMsg));
+
+  addStep(concatMsg, {}, pass ? Status.PASSED : Status.FAILED);
+}
+
+/**
+ * Removes ANSI escape codes from a string.
+ * These codes are often used for terminal text formatting (colors, bold, etc.).
+ *
+ * @param {string} text The input string potentially containing ANSI escape codes.
+ * @returns {string} The string with all ANSI escape codes removed.
+ */
+export function removeAnsiCharacters(text: string): string {
+  const ansiRegex =
+    /\x1b\[[0-9;]*[ABCDHJKLMSTfmsu]|\x1b\[[0-9;]*K|\x1b\[\?25[lh]/g;
+
+  return text.replace(ansiRegex, "");
 }
