@@ -1,5 +1,8 @@
 import Browser from "./test/helpers/browser.ts";
-import { generateAllureReport } from "./test/helpers/allure.report.ts";
+import {
+  clearAllureResults,
+  generateAllureReport,
+} from "./test/helpers/allure.report.ts";
 import HomePage from "./test/pages/home.page.ts";
 import { getEnvVar, Path } from "./test/helpers/common.ts";
 
@@ -29,6 +32,9 @@ export const config: WebdriverIO.Config = {
   mochaOpts: {
     ui: "bdd",
     timeout: 60000,
+  },
+  async onPrepare() {
+    await clearAllureResults();
   },
   async beforeTest() {
     await Browser.setUp();

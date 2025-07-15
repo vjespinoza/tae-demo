@@ -1,5 +1,6 @@
 import { spawn } from "child_process";
 import { logError, logInfo, Path } from "./common.ts";
+import * as fs from "node:fs";
 
 export async function generateAllureReport(): Promise<void> {
   const reportError = new Error("Could not generate Allure report");
@@ -43,4 +44,12 @@ export async function generateAllureReport(): Promise<void> {
       resolve();
     });
   });
+}
+
+export async function clearAllureResults(): Promise<void> {
+  const dir = Path.ALLURE_RESULT;
+  if (fs.existsSync(dir)) {
+    logInfo(`Cleared Allure results: ${dir}`);
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
 }
