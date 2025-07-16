@@ -1,6 +1,16 @@
-import { logAssert, removeAnsiCharacters } from "./common.ts";
+import { logAssert, logError, Path, removeAnsiCharacters } from "../common.ts";
+import { getValue, setValue } from "@wdio/shared-store-service";
 
-const errors: Error[] = [];
+export interface TestAssertionErrors {
+  testPath: string;
+  errorMessages: string[];
+}
+
+export interface GlobalAssertionErrors {
+  assertionErrors: TestAssertionErrors[];
+}
+
+let errorList: string[] = [];
 
 function handleAssertion(condition: Function, message: string) {
   try {
@@ -11,12 +21,49 @@ function handleAssertion(condition: Function, message: string) {
       `Assertion failed:\n ${removeAnsiCharacters((e as Error).message)}`,
       false,
     );
-    errors.push(e as Error);
+    errorList.push(removeAnsiCharacters((e as Error).message));
   }
 }
 
-export function assertAll(): Error[] {
-  return errors;
+async function setGlobalErrors(testPath: string) {
+  const testErrors: TestAssertionErrors = {
+    testPath: testPath,
+    errorMessages: [],
+  };
+  errorList.forEach((error) => {
+    testErrors.errorMessages.push(error);
+  });
+  const globalErrors: GlobalAssertionErrors = JSON.parse(
+    <string>await getValue("globalAssertionErrors"),
+  );
+  globalErrors.assertionErrors.push(testErrors);
+  await setValue("globalAssertionErrors", JSON.stringify(globalErrors));
+  errorList = [];
+}
+
+export async function assertAll(
+  testName: string,
+  testFile: string,
+): Promise<void> {
+  const testPath = `${testFile.split("/").reverse().shift()}::${testName}`;
+  await setGlobalErrors(testPath);
+}
+
+export async function logAssertionSummary() {
+  const errorSummary: GlobalAssertionErrors = JSON.parse(
+    <string>await getValue("globalAssertionErrors"),
+  );
+  const errorList: string[] = errorSummary.assertionErrors.map(
+    (assertionError) => {
+      return `>>> Assertion Errors: [${assertionError.errorMessages.length}] | Test: [${assertionError.testPath}]`;
+    },
+  );
+
+  logError(`\n############### ASSERTION ERROR SUMMARY ###############
+  \nThis execution resulted in 1 or more assertion errors
+  \nPlease review the summary below or the Allure report saved at ${Path.ALLURE_REPORT}
+  \n${errorList.join("\n")}
+  \n#######################################################`);
 }
 
 export async function assertEquals(

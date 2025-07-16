@@ -5,6 +5,11 @@ import {
 } from "./test/utils/allure.report.ts";
 import HomePage from "./test/pages/home.page.ts";
 import { getEnvVar, Path } from "./test/utils/common.ts";
+import {
+  assertAll,
+  logAssertionSummary,
+} from "./test/utils/assertions/assertions.ts";
+import { setValue } from "@wdio/shared-store-service";
 
 export const config: WebdriverIO.Config = {
   runner: "local",
@@ -33,16 +38,25 @@ export const config: WebdriverIO.Config = {
     ui: "bdd",
     timeout: 60000,
   },
-  // services: [[SoftAssertionService]],
+  services: ["shared-store"],
   async onPrepare() {
     await clearAllureResults();
+    await setValue(
+      "globalAssertionErrors",
+      JSON.stringify({
+        assertionErrors: [],
+      }),
+    );
   },
   async beforeTest() {
     await Browser.setUp();
     await HomePage.open();
   },
-  async afterTest() {},
+  async afterTest(test: Test) {
+    await assertAll(test.title, test.file);
+  },
   async onComplete() {
     await generateAllureReport();
+    await logAssertionSummary();
   },
 };
