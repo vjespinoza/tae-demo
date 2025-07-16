@@ -1,6 +1,15 @@
 import { logAssert, logError, Path, removeAnsiCharacters } from "../common.ts";
 import { getValue, setValue } from "@wdio/shared-store-service";
 
+const assertionSummary = (errorList: string[]) => `
+  \n\t############### ASSERTION ERROR SUMMARY ###############\n
+  \tThis execution resulted in 1 or more assertion errors.
+  \tPlease review the summary below or check the Allure report saved at
+  \t${Path.ALLURE_REPORT}\n
+  \t${errorList.join("\n\t")}
+  \n\t#######################################################
+ `;
+
 export interface TestAssertionErrors {
   testPath: string;
   errorMessages: string[];
@@ -59,11 +68,7 @@ export async function logAssertionSummary() {
     },
   );
 
-  logError(`\n############### ASSERTION ERROR SUMMARY ###############
-  \nThis execution resulted in 1 or more assertion errors
-  \nPlease review the summary below or the Allure report saved at ${Path.ALLURE_REPORT}
-  \n${errorList.join("\n")}
-  \n#######################################################`);
+  logError(assertionSummary(errorList));
 }
 
 export async function assertEquals(
