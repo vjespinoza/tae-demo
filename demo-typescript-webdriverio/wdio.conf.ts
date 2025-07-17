@@ -3,7 +3,7 @@ import {
   clearAllureResults,
   generateAllureReport,
 } from "./test/utils/allure.report.ts";
-import HomePage from "./test/pages/home.page.ts";
+import ProductListingPage from "./test/pages/product-listing.page.ts";
 import { getEnvVar, Path } from "./test/utils/common.ts";
 import {
   assertAll,
@@ -50,7 +50,7 @@ export const config: WebdriverIO.Config = {
   },
   async beforeTest() {
     await Browser.setUp();
-    await HomePage.open();
+    await ProductListingPage.open();
   },
   async afterTest(test: Test) {
     await assertAll(test.title, test.file);

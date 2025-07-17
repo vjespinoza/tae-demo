@@ -1,6 +1,6 @@
 import BasePage from "./base/base.page.ts";
 
-class HomePage extends BasePage {
+class ProductListingPage extends BasePage {
   constructor() {
     super();
   }
@@ -10,4 +10,4 @@ class HomePage extends BasePage {
   }
 }
 
-export default new HomePage();
+export default new ProductListingPage();
