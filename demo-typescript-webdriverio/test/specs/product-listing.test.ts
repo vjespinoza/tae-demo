@@ -31,7 +31,13 @@ describe("Product Listing Page Test", () => {
     // And I select "128GB (2)" under Storage
     // Then only Samsung products with 128GB storage should display
   });
-  it("ID-006: Add product to cart", () => {
+  it("ID-006: Clear filters and sorting", () => {
+    // Given I am viewing the product listing
+    // When I select multiple filters and sorting
+    // And I click the "Clear all" button
+    // Then all filters a soring are cleared
+  });
+  it("ID-007: Add product to cart", () => {
     // Given I am viewing a product
     // When I click the "+" button to increase quantity to 2
     // And I click the "Add to cart" button

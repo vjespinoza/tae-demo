@@ -1,9 +1,9 @@
 import WebOperations from "./web.operations.ts";
 
 class BaseComponent extends WebOperations {
-  private readonly container;
+  private readonly container: ChainablePromiseElement;
 
-  constructor(container: string) {
+  constructor(container: ChainablePromiseElement) {
     super();
     this.container = container;
   }
