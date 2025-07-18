@@ -15,6 +15,7 @@ class WebOperations {
   ): Promise<void> {
     logInfo(`Clicking on element: ${await element.selector}`);
     await waitForClickable(element, timeout, false);
+    await element.click();
   }
 
   public async type(

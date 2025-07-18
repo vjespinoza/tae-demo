@@ -50,8 +50,8 @@ class ProductListingPage extends BasePage {
     return $("button[aria-label^='Clear']");
   }
 
-  public openCartModal(): void {
-    this.click(this.cartButton);
+  public async openCartModal(): Promise<void> {
+    await this.click(this.cartButton);
   }
 
   public async getCartItemCount(): Promise<number> {
@@ -63,16 +63,18 @@ class ProductListingPage extends BasePage {
     return await this.getText(this.cartTotalPrice);
   }
 
-  public async getListingProducts() {
-    return await this.productCards.map((product) => {
-      return new ProductCard(product);
-    });
+  public async getListingProductCount() {
+    return await this.productCards.length;
   }
 
+  //TODO: Fix this
   public async getProductByName(productName: string) {
-    return (await this.getListingProducts()).filter(async (product) => {
-      return (await product.getTitle()) === productName;
+    const filteredProd = await (
+      await this.productCards.getElements()
+    ).find(async (prod) => {
+      return (await new ProductCard(prod).getProductTitle()) === productName;
     });
+    return new ProductCard(filteredProd);
   }
 
   public async sortProduct(option: string): Promise<void> {
@@ -85,8 +87,8 @@ class ProductListingPage extends BasePage {
 
   public async filterProductsByStock(inStock: boolean): Promise<void> {
     inStock
-      ? this.click(this.inStockProductFilter)
-      : this.click(this.outOfStockProductFilter);
+      ? await this.click(this.inStockProductFilter)
+      : await this.click(this.outOfStockProductFilter);
   }
 
   public async filterProductsByPriceRange(
@@ -106,6 +108,16 @@ class ProductListingPage extends BasePage {
 
   public async clearFilters() {
     await this.click(this.clearFiltersButton);
+  }
+
+  public async areAllListedProductsInStock() {
+    const listedProducts = this.productCards;
+
+    return listedProducts.every(async (product) => {
+      return (
+        (await new ProductCard(product).getProductAvailability()) === "In Stock"
+      );
+    });
   }
 }
 

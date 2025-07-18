@@ -55,6 +55,10 @@ export function isHeadless(): boolean {
   return isTrue(getEnvVar("HEADLESS", "false"));
 }
 
+export function getEnvGrep() {
+  return getEnvVar("MOCHA_GREP");
+}
+
 export function logInfo(message: string) {
   logger.info(message);
   addStep(message);

@@ -1,12 +1,37 @@
+import ProductListingPage from "../pages/product-listing.page.ts";
+import {
+  assertNotEquals,
+  assertTruthy,
+} from "../utils/assertions/assertions.ts";
+
 describe("Product Listing Page Test", () => {
   it("ID-001: Filter products by availability", async () => {
+    const initialProductCount =
+      await ProductListingPage.getListingProductCount();
+    await ProductListingPage.filterProductsByStock(true);
+
+    assertTruthy(
+      await ProductListingPage.areAllListedProductsInStock(),
+      "All listed products are in stock.",
+    );
+    assertNotEquals(
+      initialProductCount,
+      await ProductListingPage.getListingProductCount(),
+      "Cart item count is updated.",
+    );
+
     // Given I am viewing the product listing
     // When I check the "In stock (5)" checkbox under Availability
     // Then only in-stock products should be displayed
     // And the product count should update accordingly
   });
 
-  it("ID-002: Filter products by price range", () => {
+  it("ID-002: Filter products by price range", async () => {
+    const prod = await ProductListingPage.getProductByName(
+      "Logitech MX Master 3S Wireless Mouse",
+    );
+    await prod.addToCart();
+    await browser.pause(5000);
     // Given I am viewing the product listing
     // When I enter "32" in the minimum price field
     // And I enter "1199" in the maximum price field

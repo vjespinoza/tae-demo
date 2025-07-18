@@ -41,7 +41,7 @@ class ProductCard extends BaseComponent {
     return $('button[aria-label="Add to cart"]');
   }
 
-  public async getTitle(): Promise<string> {
+  public async getProductTitle(): Promise<string> {
     return await this.getText(this.productTitle);
   }
 

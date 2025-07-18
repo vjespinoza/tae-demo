@@ -4,7 +4,7 @@ import {
   generateAllureReport,
 } from "./test/utils/allure.report.ts";
 import ProductListingPage from "./test/pages/product-listing.page.ts";
-import { getEnvVar, Path } from "./test/utils/common.ts";
+import { getEnvGrep, getEnvVar, Path } from "./test/utils/common.ts";
 import {
   assertAll,
   logAssertionSummary,
@@ -37,6 +37,7 @@ export const config: WebdriverIO.Config = {
   mochaOpts: {
     ui: "bdd",
     timeout: 60000,
+    grep: getEnvGrep(),
   },
   services: ["shared-store"],
   async onPrepare() {
