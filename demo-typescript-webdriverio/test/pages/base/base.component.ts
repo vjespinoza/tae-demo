@@ -8,7 +8,7 @@ class BaseComponent extends WebOperations {
     this.container = container;
   }
 
-  public getContainer(): string {
+  public getContainer(): ChainablePromiseElement {
     return this.container;
   }
 }
