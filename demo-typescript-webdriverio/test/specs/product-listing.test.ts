@@ -28,8 +28,10 @@ describe("Product Listing Page Test", () => {
 
   it("ID-002: Filter products by price range", async () => {
     const prod = await ProductListingPage.getProductByName(
-      "Logitech MX Master 3S Wireless Mouse",
+      "Apple MacBook Air M2 256GB",
     );
+    await prod.increaseQuantity(1);
+    await browser.pause(5000);
     await prod.addToCart();
     await browser.pause(5000);
     // Given I am viewing the product listing

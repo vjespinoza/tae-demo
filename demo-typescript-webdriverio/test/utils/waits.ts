@@ -1,13 +1,13 @@
 import { DEFAULT_TIMEOUT } from "./common.ts";
 
 async function waitFor(
-  condition: Promise<boolean> | boolean,
+  condition: () => Promise<boolean>,
   errorMessage: string,
   timeout: number = DEFAULT_TIMEOUT,
   shouldFail: boolean,
 ): Promise<boolean> {
   try {
-    return await browser.waitUntil(async () => await condition, {
+    return await browser.waitUntil(async () => await condition(), {
       timeout: timeout,
       timeoutMsg: errorMessage,
     });
@@ -23,7 +23,7 @@ export async function waitForVisibility(
   shouldFail: boolean = true,
 ): Promise<boolean> {
   const msg = `Element ${await element.selector} is not visible within ${timeout}ms`;
-  return await waitFor(element.isDisplayed(), msg, timeout, shouldFail);
+  return await waitFor(() => element.isDisplayed(), msg, timeout, shouldFail);
 }
 
 export async function waitForClickable(
@@ -32,7 +32,7 @@ export async function waitForClickable(
   shouldFail: boolean = true,
 ): Promise<boolean> {
   const msg = `Element ${await element.selector} is not clickable within ${timeout}ms`;
-  return await waitFor(element.isClickable(), msg, timeout, shouldFail);
+  return await waitFor(() => element.isClickable(), msg, timeout, shouldFail);
 }
 
 export async function waitForText(
@@ -43,7 +43,7 @@ export async function waitForText(
 ) {
   const msg = `Text ${text} is not present in element ${element.selector} within ${timeout}ms`;
   return await waitFor(
-    (await element.getText()) === text,
+    async () => (await element.getText()) === text,
     msg,
     timeout,
     shouldFail,

@@ -67,14 +67,19 @@ class ProductListingPage extends BasePage {
     return await this.productCards.length;
   }
 
-  //TODO: Fix this
   public async getProductByName(productName: string) {
-    const filteredProd = await (
-      await this.productCards.getElements()
-    ).find(async (prod) => {
-      return (await new ProductCard(prod).getProductTitle()) === productName;
-    });
-    return new ProductCard(filteredProd);
+    let filteredProduct;
+    const productList = await this.productCards.map(
+      (product) => new ProductCard(product),
+    );
+
+    for (const product of productList) {
+      if ((await product.getProductTitle()) === productName) {
+        filteredProduct = product;
+      }
+    }
+
+    return filteredProduct as ProductCard;
   }
 
   public async sortProduct(option: string): Promise<void> {

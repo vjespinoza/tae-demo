@@ -23,8 +23,8 @@ class WebOperations {
     text: string,
     timeout: number = DEFAULT_TIMEOUT,
   ): Promise<void> {
-    await waitForVisibility(input, timeout, false);
     logInfo(`Typing [${text}] into input: ${await input.selector}`);
+    await waitForVisibility(input, timeout, false);
     await input.setValue(text);
   }
 
@@ -32,8 +32,8 @@ class WebOperations {
     element: ChainablePromiseElement,
     timeout: number = DEFAULT_TIMEOUT,
   ): Promise<string> {
-    await waitForVisibility(element, timeout, false);
     logInfo(`Getting text content from: ${await element.selector}`);
+    await waitForVisibility(element, timeout, false);
     return (await element.getText()).trim();
   }
 
@@ -41,8 +41,8 @@ class WebOperations {
     element: ChainablePromiseElement,
     timeout: number = DEFAULT_TIMEOUT,
   ): Promise<string> {
-    await waitForVisibility(element, timeout, false);
     logInfo(`Getting value from: ${await element.selector}`);
+    await waitForVisibility(element, timeout, false);
     return (await element.getValue()).trim();
   }
 
@@ -52,8 +52,8 @@ class WebOperations {
     value: string | number,
     timeout: number = DEFAULT_TIMEOUT,
   ) {
-    await waitForVisibility(element, timeout, false);
     logInfo(`Selecting option by value from: ${await element.selector}`);
+    await waitForVisibility(element, timeout, false);
     return await element.selectByAttribute(attribute, value);
   }
 }

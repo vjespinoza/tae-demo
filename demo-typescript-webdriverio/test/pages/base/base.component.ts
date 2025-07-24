@@ -8,8 +8,12 @@ class BaseComponent extends WebOperations {
     this.container = container;
   }
 
-  public getContainer(): ChainablePromiseElement {
+  private get getContainer(): ChainablePromiseElement {
     return this.container;
+  }
+
+  public async inner$(selector: string) {
+    return this.getContainer.$(">>>" + selector) as ChainablePromiseElement;
   }
 }
 

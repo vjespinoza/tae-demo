@@ -6,43 +6,43 @@ class ProductCard extends BaseComponent {
   }
 
   private get productImage() {
-    return $('[data-testid="product-card-image"]');
+    return this.inner$('[data-testid="product-card-image"]');
   }
 
   private get productTitle() {
-    return $('[data-testid="product-card-title"]');
+    return this.inner$('[data-testid="product-card-title"]');
   }
 
   private get productOriginalPrice() {
-    return $('[data-testid="product-card-original-price"]');
+    return this.inner$('[data-testid="product-card-original-price"]');
   }
 
   private get productFinalPrice() {
-    return $('[data-testid="product-card-final-price"]');
+    return this.inner$('[data-testid="product-card-final-price"]');
   }
 
   private get productStockLabel() {
-    return $('[data-testid="product-card-stock"]');
+    return this.inner$('[data-testid="product-card-stock"]');
   }
 
   private get productDecreaseQuantityButton() {
-    return $('[data-testid="product-card-decrease"]');
+    return this.inner$('[data-testid="product-card-decrease"]');
   }
 
   private get productIncreaseQuantityButton() {
-    return $('[data-testid="product-card-increase"]');
+    return this.inner$('[data-testid="product-card-increase"]');
   }
 
   private get productQuantityInput() {
-    return $('[data-testid="product-card-quantity"]');
+    return this.inner$('[data-testid="product-card-quantity"]');
   }
 
   private get productAddToCartButton() {
-    return $('button[aria-label="Add to cart"]');
+    return this.inner$('button[aria-label="Add to cart"]');
   }
 
   public async getProductTitle(): Promise<string> {
-    return await this.getText(this.productTitle);
+    return await this.getText(await this.productTitle);
   }
 
   public async isProductImageVisible(): Promise<boolean> {
@@ -67,7 +67,7 @@ class ProductCard extends BaseComponent {
 
   public async increaseQuantity(quantity: number): Promise<void> {
     for (let i = 0; i < quantity; i++) {
-      await this.click(this.productIncreaseQuantityButton);
+      await this.click(await this.productIncreaseQuantityButton);
     }
   }
 
@@ -82,7 +82,7 @@ class ProductCard extends BaseComponent {
   }
 
   public async addToCart(): Promise<void> {
-    await this.click(this.productAddToCartButton);
+    await this.click(await this.productAddToCartButton);
   }
 }
 
