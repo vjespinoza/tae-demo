@@ -96,3 +96,8 @@ export function removeAnsiCharacters(text: string): string {
 
   return text.replace(ansiRegex, "");
 }
+
+export function getCurrencyAsNumber(currencyString: string): number {
+  const cleanedString = currencyString.replace(/[^0-9.]/g, "");
+  return parseFloat(cleanedString);
+}

@@ -67,11 +67,13 @@ class ProductListingPage extends BasePage {
     return await this.productCards.length;
   }
 
+  public async getProductCardComponents() {
+    return await this.productCards.map((product) => new ProductCard(product));
+  }
+
   public async getProductByName(productName: string) {
     let filteredProduct;
-    const productList = await this.productCards.map(
-      (product) => new ProductCard(product),
-    );
+    const productList = await this.getProductCardComponents();
 
     for (const product of productList) {
       if ((await product.getProductTitle()) === productName) {

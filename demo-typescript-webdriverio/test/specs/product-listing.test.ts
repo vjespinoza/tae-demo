@@ -3,6 +3,7 @@ import {
   assertNotEquals,
   assertTruthy,
 } from "../utils/assertions/assertions.ts";
+import { getCurrencyAsNumber } from "../utils/common.ts";
 
 describe("Product Listing Page Test", () => {
   it("ID-001: Filter products by availability", async () => {
@@ -19,26 +20,36 @@ describe("Product Listing Page Test", () => {
       await ProductListingPage.getListingProductCount(),
       "Cart item count is updated.",
     );
-
-    // Given I am viewing the product listing
-    // When I check the "In stock (5)" checkbox under Availability
-    // Then only in-stock products should be displayed
-    // And the product count should update accordingly
   });
 
   it("ID-002: Filter products by price range", async () => {
-    const prod = await ProductListingPage.getProductByName(
-      "Apple MacBook Air M2 256GB",
+    const { minPrice, maxPrice } = { minPrice: "25", maxPrice: "100" };
+    const initialProductCount =
+      await ProductListingPage.getListingProductCount();
+
+    await ProductListingPage.filterProductsByPriceRange(minPrice, maxPrice);
+
+    assertNotEquals(
+      initialProductCount,
+      await ProductListingPage.getListingProductCount(),
+      "Cart item count is updated",
     );
-    await prod.increaseQuantity(1);
-    await browser.pause(5000);
-    await prod.addToCart();
-    await browser.pause(5000);
-    // Given I am viewing the product listing
-    // When I enter "32" in the minimum price field
-    // And I enter "1199" in the maximum price field
-    // Then only products within that price range should be displayed
+
+    const productCards = await ProductListingPage.getProductCardComponents();
+    const isPriceRangeValid = productCards.every(async (product) => {
+      return (
+        getCurrencyAsNumber(await product.getFinalPrice()) >=
+          parseInt(minPrice) &&
+        getCurrencyAsNumber(await product.getFinalPrice()) <= parseInt(maxPrice)
+      );
+    });
+
+    assertTruthy(
+      isPriceRangeValid,
+      "Listed products are within the price range",
+    );
   });
+
   it("ID-003: Filter products by category", () => {
     // Given I am viewing the product listing
     // When I select "Mobile Phones (3)" under Product type
