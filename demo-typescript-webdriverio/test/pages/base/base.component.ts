@@ -12,8 +12,8 @@ class BaseComponent extends WebOperations {
     return this.container;
   }
 
-  public async inner$(selector: string) {
-    return this.getContainer.$(">>>" + selector) as ChainablePromiseElement;
+  public inner$(selector: string): Promise<WebdriverIO.Browser["$"]> {
+    return this.getContainer.$(">>>" + selector);
   }
 }
 

@@ -42,7 +42,7 @@ class ProductCard extends BaseComponent {
   }
 
   public async getProductTitle(): Promise<string> {
-    return await this.getText(await this.productTitle);
+    return await this.getText(this.productTitle);
   }
 
   public async isProductImageVisible(): Promise<boolean> {
@@ -67,7 +67,7 @@ class ProductCard extends BaseComponent {
 
   public async increaseQuantity(quantity: number): Promise<void> {
     for (let i = 0; i < quantity; i++) {
-      await this.click(await this.productIncreaseQuantityButton);
+      await this.click(this.productIncreaseQuantityButton);
     }
   }
 
@@ -82,7 +82,7 @@ class ProductCard extends BaseComponent {
   }
 
   public async addToCart(): Promise<void> {
-    await this.click(await this.productAddToCartButton);
+    await this.click(this.productAddToCartButton);
   }
 }
 
