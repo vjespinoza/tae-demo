@@ -1,5 +1,7 @@
 import { logAssert, logError, Path, removeAnsiCharacters } from "../common.ts";
 import { getValue, setValue } from "@wdio/shared-store-service";
+import { endStep } from "@wdio/allure-reporter";
+import { Status } from "allure-js-commons";
 
 const assertionSummary = (errorList: string[]) => `
   \n############### ASSERTION ERROR SUMMARY ###############\n
@@ -52,6 +54,7 @@ async function setGlobalErrors(testPath: string) {
   globalErrors.assertionErrors.push(testErrors);
   await setValue("globalAssertionErrors", JSON.stringify(globalErrors));
   errorList = [];
+  endStep(Status.FAILED);
 }
 
 export async function assertAll(

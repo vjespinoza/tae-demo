@@ -3,18 +3,25 @@ import {
   assertNotEquals,
   assertTruthy,
 } from "../utils/assertions/assertions.ts";
-import { getCurrencyAsNumber } from "../utils/common.ts";
+import {
+  checkFilteredProductsAvailability,
+  checkFilteredProductsPriceRange,
+} from "../utils/predicates.ts";
 
 describe("Product Listing Page Test", () => {
   it("ID-001: Filter products by availability", async () => {
     const initialProductCount =
       await ProductListingPage.getListingProductCount();
+
     await ProductListingPage.filterProductsByStock(true);
 
-    assertTruthy(
-      await ProductListingPage.areAllListedProductsInStock(),
-      "All listed products are in stock.",
+    const productCards = await ProductListingPage.getProductCardComponents();
+    const listingAvailability = await checkFilteredProductsAvailability(
+      productCards,
+      "In Stock",
     );
+
+    assertTruthy(listingAvailability, "All listed products are in stock.");
     assertNotEquals(
       initialProductCount,
       await ProductListingPage.getListingProductCount(),
@@ -36,16 +43,14 @@ describe("Product Listing Page Test", () => {
     );
 
     const productCards = await ProductListingPage.getProductCardComponents();
-    const isPriceRangeValid = productCards.every(async (product) => {
-      return (
-        getCurrencyAsNumber(await product.getFinalPrice()) >=
-          parseInt(minPrice) &&
-        getCurrencyAsNumber(await product.getFinalPrice()) <= parseInt(maxPrice)
-      );
-    });
+    const listingPriceRange = await checkFilteredProductsPriceRange(
+      productCards,
+      minPrice,
+      maxPrice,
+    );
 
     assertTruthy(
-      isPriceRangeValid,
+      listingPriceRange,
       "Listed products are within the price range",
     );
   });
